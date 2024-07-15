@@ -259,7 +259,7 @@ public class CorrectPassword {
                 .andReturn();
         String responseCookie = response.getCookie("auth_cookie");
         System.out.print("запрашиваемый пароль: "+password);
-        System.out.println("\nотправляемый токен: "+ responseCookie);
+        System.out.println("отправляемый токен: "+ responseCookie);
 
 
         Response response1 = RestAssured
@@ -273,8 +273,8 @@ public class CorrectPassword {
             response1.print();
 
             if (!responseBody.equals("You are NOT authorized")) {
-                System.out.println("\t"+password);
-                System.out.println("\n"+responseBody);
+                System.out.println("Правильный пароль"+password);
+                System.out.println("Ответ"+responseBody);
                 isAuthorized = true;
                 break;
             }
