@@ -244,32 +244,37 @@ public class CorrectPassword {
         boolean isAuthorized = false;
 
 
-        //System.out.println(Arrays.toString(passwords));
+        System.out.println(Arrays.toString(passwords));
 
         for (String password : passwords){
 
+            System.out.println();
+
         Response response = RestAssured
                 .given()
+                .log().body()
                 .body("login=super_admin&password="+ password)
                 .when()
                 .post("https://playground.learnqa.ru/ajax/api/get_secret_password_homework")
                 .andReturn();
         String responseCookie = response.getCookie("auth_cookie");
-        //System.out.print(password);
-        //System.out.println("\n"+ responseCookie);
+        System.out.print("запрашиваемый пароль: "+password);
+        System.out.println("\nотправляемый токен: "+ responseCookie);
+
 
         Response response1 = RestAssured
                 .given()
+                .log().params()
                 .queryParam("auth_cookie",responseCookie)
                 .get("https://playground.learnqa.ru/ajax/api/check_auth_cookie")
                 .andReturn();
 
             String responseBody = response1.getBody().asString();
-            //response1.print();
+            response1.print();
 
             if (!responseBody.equals("You are NOT authorized")) {
-                System.out.println(password);
-                System.out.println(responseBody);
+                System.out.println("\t"+password);
+                System.out.println("\n"+responseBody);
                 isAuthorized = true;
                 break;
             }
